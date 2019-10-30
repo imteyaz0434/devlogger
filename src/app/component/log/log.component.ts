@@ -15,12 +15,14 @@ logs:Log[];
   ngOnInit() {
    this.logs = this.logservise.getlog();
   }
-  removelog(log){
-    console.log(log);
+  removelog(log:Log){
+    if(confirm('Are you sure?')){
+    this.logservise.deleteLog(log);
+    }
   }
   selectlog(log:Log){
     this.logservise.setFormLog(log);
-    //console.log(log);
+    
   }
 
 }

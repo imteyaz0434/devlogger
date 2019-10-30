@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ɵConsole } from '@angular/core';
 import { Log } from '../models/Log';
 import {BehaviorSubject} from 'rxjs';
 import {Observable} from 'rxjs';
 import{of} from 'rxjs';
+import { Logs } from 'selenium-webdriver';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,25 @@ logs:Log[];
   }
   setFormLog(log:Log){
   this.logSource.next(log);
+  }
+  addLog(log:Log){
+    this.logs.unshift(log);
+  }
+  updateLog(log:Log){
+    console.log(log);
+    this.logs.forEach((curr,index)=>{
+      if(log.id===curr.id){
+        this.logs.splice(index,1);
+      }
+    })
+    this.logs.unshift(log);
+  }
+  deleteLog(log:Log){
+    console.log(log);
+    this.logs.forEach((curr,index)=>{
+      if(log.id===curr.id){
+        this.logs.splice(index,1);
+      }
+    })
   }
 }
