@@ -9,11 +9,21 @@ import {LogService} from '../../services/log.service';
 })
 export class LogComponent implements OnInit {
 logs:Log[];
+selectedlog:Log;
+loaded:boolean = false
 
   constructor(private logservise:LogService) { }
 
   ngOnInit() {
-   this.logs = this.logservise.getlog();
+    this.logservise.selectedSatate.subscribe(clear=>{
+      if(clear){
+        this.selectedlog={id:'',text:'',date:''}
+      }
+    })
+   this.logservise.getlog().subscribe(logs=>{
+     this.logs=logs;
+     this.loaded = true;
+   });
   }
   removelog(log:Log){
     if(confirm('Are you sure?')){
@@ -22,6 +32,7 @@ logs:Log[];
   }
   selectlog(log:Log){
     this.logservise.setFormLog(log);
+    this.selectedlog=log;
     
   }
 

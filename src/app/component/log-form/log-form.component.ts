@@ -14,10 +14,13 @@ id:string;
 text:string;
 date:any;
 isNew:boolean=true;
+
 constructor(private logservise:LogService) { }
 
   ngOnInit() {
+
     this.logservise.selectedLog.subscribe(log=>{
+      console.log(log);
       if(log.id !== null){
         this.isNew=false;
         this.id = log.id;
@@ -28,6 +31,7 @@ constructor(private logservise:LogService) { }
   }
 onSubmit(){
   if(this.isNew){
+    console.log("new");
     const newLog ={
       id:this.uuid(),
       text:this.text,
@@ -35,6 +39,7 @@ onSubmit(){
     }
     this.logservise.addLog(newLog);  
     }else{
+      console.log("update");
       const updateLog={
         id:this.id,
         text:this.text,
@@ -42,9 +47,21 @@ onSubmit(){
       }
       this.logservise.updateLog(updateLog);
     }
+    this.clearlog();
   }
  uuid(){
-  return Math.floor((Math.random() * 1000)).toString();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+clearlog(){
+  this.isNew=true;
+  this.id= '';
+  this.text='';
+  this.date='';
+  this.logservise.clearState();
 }
   
 }
